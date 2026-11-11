@@ -67,9 +67,7 @@
   header.hero .full-title{font-family:"Newsreader",Georgia,serif; font-size:clamp(1.15rem,2vw,1.45rem); line-height:1.4; color:var(--on-deep); margin:0 0 12px; max-width:34ch;}
   header.hero .sub{color:var(--on-deep-soft); margin:0 0 28px; max-width:52ch;}
   .hero-art{display:flex; justify-content:center;}
-  .hero-art .logo-tile{background:#fff; border-radius:14px; padding:14px; width:min(320px,100%); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 0 0 6px rgba(255,255,255,.06), 0 24px 60px -20px rgba(0,0,0,.7);}
-  .hero-art img{width:100%; height:auto; display:block;}
+  .hero-art img{width:min(340px,100%); height:auto; display:block; filter:drop-shadow(0 18px 40px rgba(0,0,0,.45));}
   body[data-route]:not([data-route="home"]) header.hero{padding:34px 0;}
   body[data-route]:not([data-route="home"]) header.hero .hero-art,
   body[data-route]:not([data-route="home"]) header.hero .sub,
@@ -124,6 +122,7 @@
   .logo-band .lg-inaf{height:84px; width:auto;}
   .logo-band .lg-iaps{height:38px; width:auto;}
   .logo-band .lg-sap{height:58px; width:auto;}
+  .logo-band .lg-sisp{height:60px; width:auto;}
 
   /* ---------- Inner pages ---------- */
   .page-head{margin-bottom:8px;}
@@ -212,7 +211,7 @@
   .site-footer a:hover{color:#fff; text-decoration:underline;}
   .ft-logos{display:flex; align-items:center; gap:36px; flex-wrap:wrap; margin-top:44px; padding-top:28px; border-top:1px solid var(--deep-line);}
   .ft-logos img{display:block; width:auto; opacity:.9;}
-  .ft-logos .lg-inaf{height:58px;} .ft-logos .lg-iaps{height:26px;} .ft-logos .lg-sap{height:42px;}
+  .ft-logos .lg-inaf{height:58px;} .ft-logos .lg-iaps{height:26px;} .ft-logos .lg-sap{height:42px;} .ft-logos .lg-sisp{height:42px;}
   .ft-bottom{margin-top:28px; font-size:.82rem; color:#7D8C9E;}
 
   /* ---------- Responsive ---------- */
@@ -242,14 +241,14 @@
     header.hero{padding:40px 0 44px;}
     header.hero .h-in{grid-template-columns:1fr; gap:28px;}
     .hero-art{order:-1; justify-content:flex-start;}
-    .hero-art .logo-tile{width:150px; padding:8px;}
+    .hero-art img{width:170px;}
     .h-intro{padding:56px 0 52px;}
     .h-intro-body{columns:1; padding-left:16px;}
     .strata-list li .h-in{grid-template-columns:60px 1fr; row-gap:4px; column-gap:16px; padding-top:20px; padding-bottom:20px;}
     .strata-list li p{grid-column:2;}
     .s-num{font-size:2.6rem;}
     .logo-band{gap:30px; padding:26px 20px;}
-    .logo-band .lg-inaf{height:62px;} .logo-band .lg-iaps{height:26px;} .logo-band .lg-sap{height:42px;}
+    .logo-band .lg-inaf{height:62px;} .logo-band .lg-iaps{height:26px;} .logo-band .lg-sap{height:42px;} .logo-band .lg-sisp{height:42px;}
     .ft-grid{grid-template-columns:1fr 1fr; gap:28px 20px;} .ft-grid > div:first-child{grid-column:1 / -1;}
   }
   @media print{ nav,.site-footer{display:none;} }
@@ -281,7 +280,7 @@
         <a href="#programme" class="btn btn-light">See the programme</a>
       </div>
     </div>
-    <div class="hero-art"><div class="logo-tile"><img src="assets/logo_in-depth.png" alt="IN-DEPTH 2027 workshop logo"></div></div>
+    <div class="hero-art"><img src="assets/logo_in-depth_dark.png" alt="IN-DEPTH 2027 workshop logo"></div>
   </div>
 </header>
 
@@ -315,12 +314,13 @@
 
   <section class="hosts">
     <div class="h-in">
-      <h2>Hosted in Rome</h2>
+      <h2>Organisers and support</h2>
       <p>The workshop is organised by researchers at INAF-IAPS and Sapienza University of Rome. Travel grants for participants are funded by the Società Italiana di Scienze Planetarie Angioletta Coradini (SISP-AC).</p>
       <div class="logo-band">
         <img class="lg-inaf" src="assets/logo_inaf.png" alt="INAF, Istituto Nazionale di Astrofisica">
         <img class="lg-iaps" src="assets/logo_iaps.png" alt="IAPS, Istituto di Astrofisica e Planetologia Spaziali">
         <img class="lg-sap" src="assets/logo_sapienza.png" alt="Sapienza Università di Roma">
+        <img class="lg-sisp" src="assets/logo_sisp.png" alt="SISP, Società Italiana di Scienze Planetarie Angioletta Coradini">
       </div>
     </div>
   </section>
@@ -531,6 +531,7 @@
       <img class="lg-inaf" src="assets/logo_inaf.png" alt="INAF">
       <img class="lg-iaps" src="assets/logo_iaps.png" alt="INAF-IAPS">
       <img class="lg-sap" src="assets/logo_sapienza.png" alt="Sapienza Università di Roma">
+      <img class="lg-sisp" src="assets/logo_sisp.png" alt="SISP">
     </div>
     <div class="ft-bottom">© <span id="year"></span> IN-DEPTH workshop organising committee</div>
   </div>
