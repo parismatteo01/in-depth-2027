@@ -204,9 +204,22 @@
   .tline .key .d{color:var(--accent-ink);}
 
   .people{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px;}
-  .people li{background:var(--bg-raised); border:1px solid var(--line); border-top:3px solid var(--accent); padding:20px 22px;}
-  .people .pn{font-family:"Newsreader",Georgia,serif; font-size:1.2rem; margin-bottom:4px;}
+  .people > li{background:var(--bg-raised); border:1px solid var(--line); border-top:3px solid var(--accent); padding:20px 22px;}
+  .people{align-items:start;}
+  .people > li{padding:0;}
+  .people details summary{list-style:none; cursor:pointer; padding:20px 22px; display:flex; flex-direction:column; gap:4px;}
+  .people details summary::-webkit-details-marker{display:none;}
+  .people .pn{font-family:"Newsreader",Georgia,serif; font-size:1.2rem;}
   .people .pa{color:var(--ink-soft); font-size:.9rem; line-height:1.5;}
+  .people .pmore{margin-top:8px; font-size:.85rem; color:var(--accent-ink);}
+  .people .pmore::after{content:" +";}
+  .people details[open] .pmore::after{content:" \2212";}
+  .people details summary:hover .pn{color:var(--accent-ink);}
+  .people .pbody{padding:0 22px 20px; border-top:1px solid var(--line); margin:0 22px; padding:14px 0 18px;}
+  .people .pbody p{margin:0 0 12px; font-size:.93rem; line-height:1.6; color:var(--ink);}
+  .plinks{list-style:none; margin:0; padding:0; display:grid; gap:6px; font-size:.9rem;}
+  .plinks a{color:var(--accent-ink);}
+  .people-note{margin-top:22px !important; font-size:.93rem;}
 
   /* ---------- Footer ---------- */
   .site-footer{background:var(--deep); color:var(--on-deep-soft); padding:64px 0 28px; font-size:.92rem; border-top:3px solid var(--accent);}
@@ -505,14 +518,35 @@
 
     <div class="ig ig-last">
       <h3 class="ig-label">Organising committee</h3>
+      <div>
       <ul class="people">
-        <li><div class="pn">Matteo Paris</div><div class="pa">PhD student, Sapienza University of Rome, and research fellow at INAF-IAPS</div></li>
-        <li><div class="pn">Antonio Genova</div><div class="pa">Associate Professor, Sapienza University of Rome, INAF-IAPS affiliate</div></li>
-        <li><div class="pn">Anna Maria Gargiulo</div><div class="pa">Postdoctoral researcher, Sapienza University of Rome</div></li>
-        <li><div class="pn">Gabriele Boccacci</div><div class="pa">PhD student, Sapienza University of Rome</div></li>
-        <li><div class="pn">Martina Ciambellini</div><div class="pa">PhD student, Sapienza University of Rome</div></li>
-        <li><div class="pn">Tommaso Torrini</div><div class="pa">PhD student, Sapienza University of Rome</div></li>
+        <li><details>
+          <summary><span class="pn">Matteo Paris</span><span class="pa">PhD student (3rd year), Sapienza University of Rome, and research fellow at INAF-IAPS</span><span class="pmore">More</span></summary>
+          <div class="pbody"><p>PhD in Astronomy, Astrophysics and Space Science. Works on the internal structure of Io: its tidal response, the properties of partially molten layers and the propagation of magma, using Bayesian (MCMC) inversion of geophysical data in support of NASA&#x27;s Juno mission.</p><ul class="plinks"><li><a href="https://arxiv.org/abs/2603.19095" target="_blank" rel="noopener">Paper on Io&#x27;s tidal response (arXiv)</a></li><li><a href="mailto:matteo.paris@inaf.it">matteo.paris@inaf.it</a></li></ul></div>
+        </details></li>
+        <li><details>
+          <summary><span class="pn">Antonio Genova</span><span class="pa">Associate Professor, Department of Mechanical and Aerospace Engineering, Sapienza University of Rome; INAF-IAPS affiliate</span><span class="pmore">More</span></summary>
+          <div class="pbody"><p>Geodetic and geophysical analysis of the surface and interior of planetary bodies, space instrumentation, autonomous navigation of space probes and planning of Solar System exploration missions.</p><ul class="plinks"><li><a href="https://sites.google.com/uniroma1.it/spring/team/antonio-genova" target="_blank" rel="noopener">Profile on the SPRING group site</a></li><li><a href="mailto:antonio.genova@uniroma1.it">antonio.genova@uniroma1.it</a></li></ul></div>
+        </details></li>
+        <li><details>
+          <summary><span class="pn">Anna Maria Gargiulo</span><span class="pa">Postdoctoral researcher, Sapienza University of Rome</span><span class="pmore">More</span></summary>
+          <div class="pbody"><p>Automatic detection of volcano-tectonic features on terrestrial planets and localisation of planetary rovers.</p><ul class="plinks"><li><a href="https://sites.google.com/uniroma1.it/spring/team/anna-maria-gargiulo" target="_blank" rel="noopener">Profile on the SPRING group site</a></li><li><a href="mailto:annamaria.gargiulo@uniroma1.it">annamaria.gargiulo@uniroma1.it</a></li></ul></div>
+        </details></li>
+        <li><details>
+          <summary><span class="pn">Martina Ciambellini</span><span class="pa">PhD student (3rd year), Aeronautics and Space Engineering, Sapienza University of Rome</span><span class="pmore">More</span></summary>
+          <div class="pbody"><p>Navigation of space probes, computer stereo vision and path planning for planetary rovers.</p><ul class="plinks"><li><a href="https://sites.google.com/uniroma1.it/spring/team/martina-ciambellini" target="_blank" rel="noopener">Profile on the SPRING group site</a></li><li><a href="mailto:martina.ciambellini@uniroma1.it">martina.ciambellini@uniroma1.it</a></li></ul></div>
+        </details></li>
+        <li><details>
+          <summary><span class="pn">Tommaso Torrini</span><span class="pa">PhD student (3rd year), Aeronautics and Space Engineering, Sapienza University of Rome</span><span class="pmore">More</span></summary>
+          <div class="pbody"><p>Radio science data processing and simulation of space missions.</p><ul class="plinks"><li><a href="https://sites.google.com/uniroma1.it/spring/team/tommaso-torrini" target="_blank" rel="noopener">Profile on the SPRING group site</a></li><li><a href="mailto:tommaso.torrini@uniroma1.it">tommaso.torrini@uniroma1.it</a></li></ul></div>
+        </details></li>
+        <li><details>
+          <summary><span class="pn">Gabriele Boccacci</span><span class="pa">PhD student (2nd year), Aeronautics and Space Engineering, Sapienza University of Rome</span><span class="pmore">More</span></summary>
+          <div class="pbody"><p>Numerical methods for the geology of planetary interiors and robotics for space exploration.</p><ul class="plinks"><li><a href="https://sites.google.com/uniroma1.it/spring/team/gabriele-boccacci" target="_blank" rel="noopener">Profile on the SPRING group site</a></li><li><a href="mailto:gabriele.boccacci@uniroma1.it">gabriele.boccacci@uniroma1.it</a></li></ul></div>
+        </details></li>
       </ul>
+      <p class="ig-text people-note">Most of the committee works in the <a href="https://sites.google.com/uniroma1.it/spring/home" target="_blank" rel="noopener">SPRING group</a> at Sapienza University of Rome. Click on a name to read more.</p>
+      </div>
     </div>
   </section>
 </div>
