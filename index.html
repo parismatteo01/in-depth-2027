@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IN-DEPTH 2027 Workshop</title>
+<meta name="description" content="IN-DEPTH 2027, a hands-on workshop in Rome on planetary geodesy, forward modelling and Bayesian inversion of planetary interiors, for PhD students and early-career researchers.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F4F1; --bg-raised:#FFFFFF; --ink:#0F1A28; --ink-soft:#4E5968;
+    --line:#D9DDE3; --accent:#C8662A; --accent-ink:#8E4313; --ice:#7FB2D9;
+    --deep:#0B1626; --deep-2:#14304D; --deep-line:#22344A;
+    --gold:#E8B45C; --on-deep:#E8EDF3; --on-deep-soft:#B3C0CF;
+    --radius:2px;
+  }
+  html{scroll-padding-top:72px;}
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"IBM Plex Sans",system-ui,sans-serif; line-height:1.6;}
+  h1,h2,h3,h4{font-family:"Newsreader",Georgia,serif; font-weight:500; margin:0 0 .3em;}
+  p{max-width:66ch;}
+  a{color:inherit;}
+  img{max-width:100%;}
+
+  /* ---------- Navigation ---------- */
+  nav{position:sticky; top:0; z-index:20; padding:10px 24px; padding-top:calc(10px + env(safe-area-inset-top,0px));
+    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+    background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  nav .brand{display:flex; align-items:center; gap:10px; font-family:"Newsreader",serif; font-size:1.15rem; text-decoration:none; letter-spacing:.02em;}
+  nav .brand img{height:36px; width:36px; border-radius:50%; object-fit:cover; background:#fff; border:1px solid var(--line);}
+  nav .links{display:flex; align-items:center; gap:24px; flex-wrap:wrap;}
+  nav .links a{text-decoration:none; font-size:.92rem; color:var(--ink-soft); border-bottom:1px solid transparent; padding:2px 0;}
+  nav .links a:hover, nav .links a.active{color:var(--ink); border-color:var(--accent);}
+  nav .links a.nav-cta{padding:7px 16px; background:var(--accent); color:#fff; border:none; border-radius:var(--radius);}
+  nav .links a.nav-cta:hover, nav .links a.nav-cta.active{background:var(--accent-ink); color:#fff;}
+  .nav-toggle{display:none;}
+
+  /* ---------- Pages ---------- */
+  .page{display:none;}
+  .page.active{display:block;}
+  body[data-route]:not([data-route="home"]) .home-only{display:none;}
+  .h-in{max-width:1180px; margin:0 auto; padding:0 32px;}
+  .inner{max-width:1180px; margin:0 auto; padding:72px 32px 110px;}
+
+  /* ---------- Hero ---------- */
+  header.hero{position:relative; overflow:hidden; color:var(--on-deep); padding:64px 0 60px;
+    background:
+      radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,.8) 50%, transparent 51%),
+      radial-gradient(1px 1px at 28% 74%, rgba(255,255,255,.6) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 41% 14%, rgba(255,255,255,.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 57% 63%, rgba(255,255,255,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 66% 31%, rgba(255,255,255,.7) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 83% 82%, rgba(255,255,255,.6) 50%, transparent 51%),
+      radial-gradient(1px 1px at 91% 12%, rgba(255,255,255,.8) 50%, transparent 51%),
+      radial-gradient(1px 1px at 6% 88%, rgba(255,255,255,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 48% 92%, rgba(255,255,255,.6) 50%, transparent 51%),
+      radial-gradient(1px 1px at 74% 48%, rgba(255,255,255,.4) 50%, transparent 51%),
+      radial-gradient(ellipse 55% 80% at 88% 40%, rgba(200,102,42,.30), transparent 70%),
+      radial-gradient(ellipse 60% 90% at 10% 110%, rgba(127,178,217,.22), transparent 70%),
+      linear-gradient(160deg, var(--deep-2) 0%, var(--deep) 65%);}
+  header.hero .h-in{display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:48px; align-items:center;}
+  .eyebrow{color:var(--gold); font-size:1.08rem; font-weight:500; letter-spacing:.02em; margin-bottom:12px;}
+  header.hero h1{font-size:clamp(2.4rem,5.6vw,4.2rem); line-height:1; color:#fff; letter-spacing:.01em; margin-bottom:14px;}
+  header.hero .full-title{font-family:"Newsreader",Georgia,serif; font-size:clamp(1.15rem,2vw,1.45rem); line-height:1.4; color:var(--on-deep); margin:0 0 12px; max-width:34ch;}
+  header.hero .sub{color:var(--on-deep-soft); margin:0 0 28px; max-width:52ch;}
+  .hero-art{display:flex; justify-content:center;}
+  .hero-art .logo-tile{background:#fff; border-radius:14px; padding:14px; width:min(320px,100%); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 6px rgba(255,255,255,.06), 0 24px 60px -20px rgba(0,0,0,.7);}
+  .hero-art img{width:100%; height:auto; display:block;}
+  body[data-route]:not([data-route="home"]) header.hero{padding:34px 0;}
+  body[data-route]:not([data-route="home"]) header.hero .hero-art,
+  body[data-route]:not([data-route="home"]) header.hero .sub,
+  body[data-route]:not([data-route="home"]) header.hero .cta-row{display:none;}
+  body[data-route]:not([data-route="home"]) header.hero h1{font-size:clamp(1.8rem,3.4vw,2.4rem);}
+  body[data-route]:not([data-route="home"]) header.hero .full-title{font-size:1.05rem; margin:0;}
+
+  /* ---------- Buttons ---------- */
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{display:inline-block; padding:11px 22px; border-radius:var(--radius); font-size:.95rem; text-decoration:none; cursor:pointer; border:1px solid transparent; font-family:inherit;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:var(--accent-ink);}
+  .btn-light{background:transparent; color:#fff; border-color:rgba(255,255,255,.35);}
+  .btn-light:hover{border-color:#fff;}
+  .btn-outline{background:transparent; color:var(--accent-ink); border-color:var(--accent);}
+  .btn-outline:hover{background:var(--accent); color:#fff;}
+  .btn[aria-disabled="true"]{background:var(--line); color:var(--ink-soft); cursor:default; pointer-events:none;}
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  /* ---------- Home intro ---------- */
+  .h-intro{padding:96px 0 88px;}
+  .h-intro-title{font-size:clamp(2rem,4.2vw,3.2rem); line-height:1.08; font-weight:400; margin-bottom:16px;}
+  .h-intro-tag{font-family:"Newsreader",Georgia,serif; font-style:italic; font-size:1.3rem; color:var(--accent-ink); margin:0 0 44px; max-width:none;}
+  .h-intro-body{padding-left:28px; border-left:3px solid var(--accent); columns:2; column-gap:56px;}
+  .h-intro-body p{break-inside:avoid; margin:0 0 18px; font-size:1.05rem; line-height:1.75; color:var(--ink-soft); max-width:none;}
+  .h-intro-body p:last-child{margin-bottom:0;}
+
+  /* ---------- Phases (strata) ---------- */
+  .strata-head{padding-bottom:36px;}
+  .strata-head h2{font-size:clamp(1.8rem,3vw,2.4rem); font-weight:400; margin-bottom:6px;}
+  .strata-head p{color:var(--ink-soft); margin:0;}
+  .strata-list{list-style:none; margin:0; padding:0;}
+  .strata-list li .h-in{display:grid; grid-template-columns:110px minmax(0,330px) minmax(0,1fr); align-items:center; column-gap:40px; padding-top:26px; padding-bottom:26px;}
+  .s-num{font-family:"Newsreader",Georgia,serif; font-size:clamp(3rem,5.4vw,4.6rem); line-height:1;}
+  .strata-list h3{font-size:1.35rem; margin:0;}
+  .strata-list p{margin:0; max-width:60ch;}
+  .s1{background:color-mix(in srgb, var(--ice) 14%, var(--bg));}
+  .s2{background:color-mix(in srgb, var(--ice) 30%, var(--bg));}
+  .s3{background:var(--deep-2);}
+  .s4{background:var(--deep);}
+  .s1 .s-num,.s2 .s-num{color:var(--deep-2);} .s1 p,.s2 p{color:var(--ink-soft);}
+  .s3,.s4{color:var(--on-deep);} .s3 p,.s4 p{color:var(--on-deep-soft);} .s3 .s-num,.s4 .s-num{color:var(--gold);}
+  .strata-foot{padding-top:28px;}
+  .strata-foot a{color:var(--accent-ink);}
+
+  /* ---------- Hosts ---------- */
+  .hosts{padding:84px 0 92px;}
+  .hosts h2{font-size:clamp(1.6rem,2.6vw,2.1rem); font-weight:400; margin-bottom:8px;}
+  .hosts p{color:var(--ink-soft); margin:0 0 32px;}
+  .logo-band{display:flex; align-items:center; justify-content:center; gap:56px; flex-wrap:wrap; background:var(--deep); padding:34px 40px; border-top:3px solid var(--accent);}
+  .logo-band img{display:block; height:auto;}
+  .logo-band .lg-inaf{height:84px; width:auto;}
+  .logo-band .lg-iaps{height:38px; width:auto;}
+  .logo-band .lg-sap{height:58px; width:auto;}
+
+  /* ---------- Inner pages ---------- */
+  .page-head{margin-bottom:8px;}
+  .page-head h2{font-size:clamp(2rem,3.6vw,2.8rem); font-weight:400; line-height:1.1; margin-bottom:10px;}
+  .page-head .lede{font-family:"Newsreader",Georgia,serif; font-style:italic; font-size:1.2rem; color:var(--accent-ink); margin:0;}
+
+  .ww{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); margin:36px 0 12px; background:var(--deep); color:var(--on-deep); border-top:3px solid var(--accent);}
+  .ww > div{padding:34px 40px;}
+  .ww-where{border-left:1px solid var(--deep-line);}
+  .ww-k{font-size:.9rem; color:var(--gold); margin-bottom:10px;}
+  .ww-big{font-family:"Newsreader",Georgia,serif; font-size:clamp(1.7rem,2.8vw,2.3rem); line-height:1.1; color:#fff; margin-bottom:8px;}
+  .ww p{color:var(--on-deep-soft); margin:0;}
+  .ww .ww-addr{color:var(--on-deep); line-height:1.65;}
+  .ww a{color:var(--gold); text-underline-offset:3px;}
+
+  .ig{display:grid; grid-template-columns:220px minmax(0,1fr); gap:20px 48px; padding:48px 0; border-bottom:1px solid var(--line);}
+  .ig-last{border-bottom:none;}
+  .ig-label{font-size:1.5rem; font-weight:400; margin:0; line-height:1.2;}
+  .ig-text{color:var(--ink-soft); margin:0 0 14px; max-width:68ch; line-height:1.7;}
+  .ig-text:last-child{margin-bottom:0;}
+  .ig a{color:var(--accent-ink);}
+
+  .ticks{list-style:none; margin:0; padding:0; display:grid; gap:12px;}
+  .ticks li{position:relative; padding-left:26px; color:var(--ink-soft); line-height:1.6;}
+  .ticks li::before{content:""; position:absolute; left:0; top:.55em; width:9px; height:9px; border-radius:50%; background:var(--accent);}
+
+  .cards3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px;}
+  .icard{background:var(--bg-raised); border:1px solid var(--line); border-top:3px solid var(--accent); padding:22px 22px 24px;}
+  .icard h4{font-size:1.15rem; margin:0 0 8px;}
+  .icard p{color:var(--ink-soft); margin:0; font-size:.95rem; line-height:1.65;}
+
+  /* Phases on programme page */
+  .phase{display:grid; grid-template-columns:220px minmax(0,1fr); gap:20px 48px; padding:48px 0; border-bottom:1px solid var(--line);}
+  .phase:last-of-type{border-bottom:none;}
+  .phase-k{font-size:.9rem; color:var(--accent-ink); font-weight:500; margin-bottom:6px;}
+  .phase h3{font-size:1.5rem; font-weight:400; line-height:1.2; margin:0;}
+  .phase-body p{color:var(--ink-soft); margin:0 0 18px; line-height:1.7;}
+  .topics{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 20px; padding:0; list-style:none;}
+  .topics li{background:var(--bg-raised); border:1px solid var(--line); padding:6px 12px; font-size:.9rem; color:var(--ink);}
+  .handson{background:var(--deep); color:var(--on-deep); padding:20px 24px; border-left:4px solid var(--gold);}
+  .handson .hk{font-size:.85rem; color:var(--gold); margin-bottom:4px;}
+  .handson p{color:var(--on-deep); margin:0;}
+
+  /* Schedule (filled from the PROGRAMME list in the script) */
+  .pg-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; align-items:start;}
+  .pg-day-head{padding:0 0 14px; margin-bottom:12px; border-bottom:2px solid var(--ink);}
+  .pg-dayname{font-family:"Newsreader",Georgia,serif; font-size:1.6rem; line-height:1.1;}
+  .pg-date{color:var(--ink-soft); font-size:.92rem; margin-top:2px;}
+  .pg-list{list-style:none; margin:0; padding:0; display:grid; gap:8px;}
+  .pg-item{padding:12px 14px; border:1px solid var(--line); border-left:4px solid var(--accent); background:var(--bg-raised);}
+  .pg-time{font-size:.8rem; color:var(--ink-soft); font-variant-numeric:tabular-nums; margin-bottom:2px;}
+  .pg-title{font-weight:500;}
+  .pg-detail{font-size:.88rem; color:var(--ink-soft); margin-top:2px;}
+  .pg-handson{border-left-color:var(--ice);}
+  .pg-break{background:color-mix(in srgb, var(--gold) 14%, var(--bg)); border-left-color:var(--gold); padding-top:8px; padding-bottom:8px;}
+  .pg-break .pg-title{font-weight:400;}
+  .pg-other{border-left-color:var(--ink-soft);}
+  .pg-social{background:var(--deep); border-color:var(--deep); border-left-color:var(--gold);}
+  .pg-social .pg-title{color:#fff;} .pg-social .pg-time,.pg-social .pg-detail{color:var(--on-deep-soft);}
+  .pg-empty{color:var(--ink-soft); font-style:italic; margin:0;}
+
+  /* Timeline */
+  .tline{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); position:relative;}
+  .tline::before{content:""; position:absolute; left:0; right:0; top:7px; height:2px; background:var(--line);}
+  .tline li{position:relative; padding:30px 14px 0 0; display:flex; flex-direction:column; gap:4px;}
+  .tline li::before{content:""; position:absolute; top:0; left:0; width:12px; height:12px; border-radius:50%; background:var(--bg); border:2px solid var(--accent);}
+  .tline .d{font-family:"Newsreader",Georgia,serif; font-size:1.25rem;}
+  .tline .t{font-size:.88rem; color:var(--ink-soft); line-height:1.4;}
+  .tline .key::before{background:var(--accent); width:16px; height:16px; top:-2px; left:-2px;}
+  .tline .key .d{color:var(--accent-ink);}
+
+  .people{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px;}
+  .people li{background:var(--bg-raised); border:1px solid var(--line); border-top:3px solid var(--accent); padding:20px 22px;}
+  .people .pn{font-family:"Newsreader",Georgia,serif; font-size:1.2rem; margin-bottom:4px;}
+  .people .pa{color:var(--ink-soft); font-size:.9rem; line-height:1.5;}
+
+  /* ---------- Footer ---------- */
+  .site-footer{background:var(--deep); color:var(--on-deep-soft); padding:64px 0 28px; font-size:.92rem; border-top:3px solid var(--accent);}
+  .ft-grid{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:40px;}
+  .site-footer p{margin:0 0 10px; max-width:44ch; line-height:1.6;}
+  .ft-title{font-family:"Newsreader",Georgia,serif; font-size:1.5rem; color:#fff; margin-bottom:10px;}
+  .ft-when{color:var(--gold);}
+  .ft-head{color:#fff; font-weight:500; margin-bottom:12px;}
+  .site-footer ul{list-style:none; margin:0; padding:0; display:grid; gap:8px;}
+  .site-footer a{color:var(--on-deep-soft); text-decoration:none;}
+  .site-footer a:hover{color:#fff; text-decoration:underline;}
+  .ft-logos{display:flex; align-items:center; gap:36px; flex-wrap:wrap; margin-top:44px; padding-top:28px; border-top:1px solid var(--deep-line);}
+  .ft-logos img{display:block; width:auto; opacity:.9;}
+  .ft-logos .lg-inaf{height:58px;} .ft-logos .lg-iaps{height:26px;} .ft-logos .lg-sap{height:42px;}
+  .ft-bottom{margin-top:28px; font-size:.82rem; color:#7D8C9E;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:960px){
+    .ig,.phase{grid-template-columns:1fr; gap:18px; padding:36px 0;}
+    .ww{grid-template-columns:1fr;} .ww-where{border-left:none; border-top:1px solid var(--deep-line);}
+    .ww > div{padding:26px 24px;}
+    .cards3,.people{grid-template-columns:1fr;}
+    .pg-grid{grid-template-columns:1fr; gap:32px;}
+    .tline{grid-template-columns:1fr; gap:18px;}
+    .tline::before{left:5px; right:auto; top:0; bottom:0; width:2px; height:auto;}
+    .tline li{padding:0 0 0 30px;}
+  }
+  @media (max-width:860px){
+    .h-in{padding:0 20px;}
+    .inner{padding:44px 20px 72px;}
+    nav{padding:10px 16px; padding-top:calc(10px + env(safe-area-inset-top,0px)); row-gap:0;}
+    .nav-toggle{display:flex; flex-direction:column; justify-content:center; gap:5px; width:42px; height:42px; padding:0 10px; background:transparent; border:1px solid var(--line); border-radius:var(--radius); cursor:pointer;}
+    .nav-toggle span{display:block; height:2px; background:var(--ink); transition:transform .2s, opacity .2s;}
+    nav.open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    nav.open .nav-toggle span:nth-child(2){opacity:0;}
+    nav.open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    nav .links{display:none;}
+    nav.open .links{display:flex; flex-direction:column; align-items:stretch; gap:0; width:100%; flex-basis:100%; margin-top:10px; border-top:1px solid var(--line);}
+    nav.open .links a{font-size:1.05rem; padding:14px 2px; border-bottom:1px solid var(--line); color:var(--ink);}
+    nav.open .links a.nav-cta{margin-top:14px; text-align:center; color:#fff;}
+    header.hero{padding:40px 0 44px;}
+    header.hero .h-in{grid-template-columns:1fr; gap:28px;}
+    .hero-art{order:-1; justify-content:flex-start;}
+    .hero-art .logo-tile{width:150px; padding:8px;}
+    .h-intro{padding:56px 0 52px;}
+    .h-intro-body{columns:1; padding-left:16px;}
+    .strata-list li .h-in{grid-template-columns:60px 1fr; row-gap:4px; column-gap:16px; padding-top:20px; padding-bottom:20px;}
+    .strata-list li p{grid-column:2;}
+    .s-num{font-size:2.6rem;}
+    .logo-band{gap:30px; padding:26px 20px;}
+    .logo-band .lg-inaf{height:62px;} .logo-band .lg-iaps{height:26px;} .logo-band .lg-sap{height:42px;}
+    .ft-grid{grid-template-columns:1fr 1fr; gap:28px 20px;} .ft-grid > div:first-child{grid-column:1 / -1;}
+  }
+  @media print{ nav,.site-footer{display:none;} }
+</style>
+</head>
+<body data-route="home">
+
+<nav>
+  <a class="brand" href="#home"><img src="assets/logo_in-depth.png" alt="">IN-DEPTH 2027</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <div class="links" id="nav-links">
+    <a href="#home" data-nav="home">Home</a>
+    <a href="#programme" data-nav="programme">Programme</a>
+    <a href="#info" data-nav="info">Info &amp; logistics</a>
+    <a href="#organisers" data-nav="organisers">Organisers &amp; contacts</a>
+    <a href="#apply" data-nav="apply" class="nav-cta">Apply</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="h-in">
+    <div>
+      <div class="eyebrow"><span data-cfg="dates"></span> · <span data-cfg="city"></span></div>
+      <h1>IN-DEPTH 2027</h1>
+      <p class="full-title">Unveiling the interior of planetary bodies, from geodesy to the search for habitable environments</p>
+      <p class="sub">An in-person workshop for PhD students and early-career researchers on how gravity, tidal and magnetic data are turned into models of planetary interiors.</p>
+      <div class="cta-row">
+        <a href="#apply" class="btn btn-primary">How to apply</a>
+        <a href="#programme" class="btn btn-light">See the programme</a>
+      </div>
+    </div>
+    <div class="hero-art"><div class="logo-tile"><img src="assets/logo_in-depth.png" alt="IN-DEPTH 2027 workshop logo"></div></div>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<div class="page" data-page="home">
+  <section class="h-intro">
+    <div class="h-in">
+      <h2 class="h-intro-title">Welcome to IN-DEPTH 2027</h2>
+      <p class="h-intro-tag">A hands-on workshop on forward modelling and Bayesian inversion of planetary interiors.</p>
+      <div class="h-intro-body">
+        <p>Gravity fields, tidal deformation and induced magnetic fields are most of what we can measure about the inside of a planet or a moon. Linking them to a model of the interior means solving two problems. The forward problem predicts what a given internal structure would produce. The inverse problem works back from the data to the set of structures that fit them, and to how well each parameter is constrained.</p>
+        <p>Juno has measured the tidal response of Io, and JUICE and Europa Clipper will return gravity, altimetry and magnetic data for Ganymede, Europa and Callisto. Reading these data requires numerical models that couple non-linear rheology, heat transport and multiphase dynamics, together with statistical methods that can handle the non-uniqueness of the solution.</p>
+        <p>The workshop brings together about 20 PhD students and young postdocs. Each part of the programme starts with lectures and continues with a hands-on session: participants build a finite element model, then run a Markov chain Monte Carlo inversion on synthetic data. A final round table looks at how the uncertainties on interior parameters translate into ice shell thickness, ocean depth and dissipated tidal power, which are the quantities that matter when assessing whether an ocean world could be habitable.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="phases-title">
+    <div class="h-in strata-head">
+      <h2 id="phases-title">Three phases and a round table</h2>
+      <p>From the measurements to the models and back.</p>
+    </div>
+    <ol class="strata-list">
+      <li class="s1"><div class="h-in"><span class="s-num" aria-hidden="true">1</span><h3>Observational constraints and planetary geodesy</h3><p>Gravity field, moment of inertia, Love numbers and induced magnetic fields, and how radio science, laser altimetry and magnetometry measure them.</p></div></li>
+      <li class="s2"><div class="h-in"><span class="s-num" aria-hidden="true">2</span><h3>Forward modelling</h3><p>Conservation equations, convection, viscoelastic and visco-elasto-plastic rheology, multiphase systems. Hands-on finite element modelling.</p></div></li>
+      <li class="s3"><div class="h-in"><span class="s-num" aria-hidden="true">3</span><h3>Inverse problem and Bayesian inference</h3><p>Likelihood, non-uniqueness and uncertainty quantification. Hands-on MCMC inversion of structural parameters from simulated data.</p></div></li>
+      <li class="s4"><div class="h-in"><span class="s-num" aria-hidden="true">4</span><h3>Round table</h3><p>From interior parameters to ocean depth, crust thickness and dissipated power, and ideas for joint work after the workshop.</p></div></li>
+    </ol>
+    <div class="h-in strata-foot"><a href="#programme">Read the full programme</a></div>
+  </section>
+
+  <section class="hosts">
+    <div class="h-in">
+      <h2>Hosted in Rome</h2>
+      <p>The workshop is organised by researchers at INAF-IAPS and Sapienza University of Rome. Travel grants for participants are funded by the Società Italiana di Scienze Planetarie Angioletta Coradini (SISP-AC).</p>
+      <div class="logo-band">
+        <img class="lg-inaf" src="assets/logo_inaf.png" alt="INAF, Istituto Nazionale di Astrofisica">
+        <img class="lg-iaps" src="assets/logo_iaps.png" alt="IAPS, Istituto di Astrofisica e Planetologia Spaziali">
+        <img class="lg-sap" src="assets/logo_sapienza.png" alt="Sapienza Università di Roma">
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PROGRAMME ============ -->
+<div class="page" data-page="programme">
+  <section class="inner">
+    <div class="page-head">
+      <h2>Programme</h2>
+      <p class="lede">Lectures first, then hands-on work on the same topics.</p>
+    </div>
+
+    <article class="phase">
+      <div><div class="phase-k">Phase 1</div><h3>Observational constraints and planetary geodesy</h3></div>
+      <div class="phase-body">
+        <p>The first phase covers the observables that constrain the interior of a body and the techniques used to acquire them: radio science based on spacecraft tracking, laser altimetry and magnetometry. For each one we discuss the quantitative link between the measurement and the internal properties it is sensitive to.</p>
+        <ul class="topics">
+          <li>Gravity field and harmonic coefficients</li>
+          <li>Moment of inertia</li>
+          <li>Tidal deformation and Love numbers</li>
+          <li>Induced magnetic fields</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="phase">
+      <div><div class="phase-k">Phase 2</div><h3>Forward modelling</h3></div>
+      <div class="phase-body">
+        <p>The second phase introduces physical models of planetary interiors built from conservation equations, with attention to the rheology of rock and ice and to systems where melt or water coexist with a solid matrix.</p>
+        <ul class="topics">
+          <li>Conservation equations</li>
+          <li>Convection and heat transport</li>
+          <li>Viscoelastic and visco-elasto-plastic rheology</li>
+          <li>Multiphase systems</li>
+        </ul>
+        <div class="handson"><div class="hk">Hands-on session</div><p>Building a finite element model, with boundary conditions and constitutive laws chosen for a real planetary body.</p></div>
+      </div>
+    </article>
+
+    <article class="phase">
+      <div><div class="phase-k">Phase 3</div><h3>Inverse problem and Bayesian inference</h3></div>
+      <div class="phase-body">
+        <p>The third phase moves from data to models. Participants see how to write a likelihood for geophysical observables, how to explore a parameter space where many solutions fit the data, and how to report the resulting uncertainties.</p>
+        <ul class="topics">
+          <li>Building the likelihood</li>
+          <li>Dealing with non-uniqueness</li>
+          <li>Uncertainty quantification</li>
+        </ul>
+        <div class="handson"><div class="hk">Hands-on session</div><p>Running a Markov chain Monte Carlo algorithm to infer structural parameters from a simulated dataset.</p></div>
+      </div>
+    </article>
+
+    <article class="phase">
+      <div><div class="phase-k">Closing</div><h3>Round table</h3></div>
+      <div class="phase-body">
+        <p>The uncertainties on interior parameters are carried over to quantities of astrobiological interest, such as ocean depth, crust thickness and dissipated power. The discussion is also the place to plan joint projects among participants and speakers.</p>
+        <p>Lecture notes, example codes for modelling and inversion and the synthetic datasets used in the hands-on sessions will be shared with participants.</p>
+      </div>
+    </article>
+
+    <div class="ig ig-last">
+      <h3 class="ig-label">Daily schedule</h3>
+      <div><div id="programme-grid"></div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ APPLY ============ -->
+<div class="page" data-page="apply">
+  <section class="inner">
+    <div class="page-head">
+      <h2>How to apply</h2>
+      <p class="lede">About 20 places, assigned on the basis of CV and motivation.</p>
+    </div>
+
+    <div class="ww">
+      <div><div class="ww-k">Who can apply</div><div class="ww-big">PhD students and postdocs</div><p>Aged 35 or under at the time of the workshop.</p></div>
+      <div class="ww-where"><div class="ww-k">Application deadline</div><div class="ww-big" data-cfg="deadline"></div><p class="ww-addr">The application asks for a short CV and a motivation statement.</p></div>
+    </div>
+
+    <div class="ig">
+      <h3 class="ig-label">What we expect</h3>
+      <ul class="ticks">
+        <li>Basic knowledge of physics and geophysics.</li>
+        <li>Familiarity with numerical methods.</li>
+        <li>Some experience with scientific programming, since the hands-on sessions involve writing and running code.</li>
+      </ul>
+    </div>
+
+    <div class="ig">
+      <h3 class="ig-label">Selection</h3>
+      <div>
+        <p class="ig-text">Applications are evaluated on CV and motivation. In forming the group we also look for participants from different Italian institutions and for gender balance, and we give attention to applicants with limited funding for travel.</p>
+      </div>
+    </div>
+
+    <div class="ig">
+      <h3 class="ig-label">Travel grants</h3>
+      <div>
+        <p class="ig-text">The Società Italiana di Scienze Planetarie Angioletta Coradini (SISP-AC) funds four to five SISP-AC Travel Grants, which cover travel and accommodation for selected participants. You can ask for one in the application form.</p>
+      </div>
+    </div>
+
+    <div class="ig">
+      <h3 class="ig-label">Key dates</h3>
+      <ol class="tline" id="timeline"></ol>
+    </div>
+
+    <div class="ig ig-last">
+      <h3 class="ig-label">Application form</h3>
+      <div>
+        <p class="ig-text" id="apply-note"></p>
+        <a class="btn btn-primary" id="apply-btn" href="#" target="_blank" rel="noopener">Open the application form</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ INFO ============ -->
+<div class="page" data-page="info">
+  <section class="inner">
+    <div class="page-head">
+      <h2>Info &amp; logistics</h2>
+      <p class="lede">Practical details for planning your trip.</p>
+    </div>
+
+    <div class="ww">
+      <div><div class="ww-k">When</div><div class="ww-big" data-cfg="dates"></div><p>The workshop is held in person.</p></div>
+      <div class="ww-where"><div class="ww-k">Where</div><p class="ww-addr" data-cfg="venue"></p></div>
+    </div>
+
+    <div class="ig">
+      <h3 class="ig-label">Getting to Rome</h3>
+      <p class="ig-text">Rome is served by Fiumicino and Ciampino airports, and Roma Termini is the main railway station, with high-speed trains to most Italian cities. Directions to the venue will be posted here once the room is confirmed.</p>
+    </div>
+
+    <div class="ig">
+      <h3 class="ig-label">Accommodation</h3>
+      <p class="ig-text">Participants arrange their own accommodation. Those who receive a travel grant will get the details on what is covered together with the notification of selection.</p>
+    </div>
+
+    <div class="ig ig-last">
+      <h3 class="ig-label">What to bring</h3>
+      <p class="ig-text">A laptop for the hands-on sessions. Instructions for installing the software used in the exercises will be sent to selected participants before the workshop.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ ORGANISERS ============ -->
+<div class="page" data-page="organisers">
+  <section class="inner">
+    <div class="page-head">
+      <h2>Organisers &amp; contacts</h2>
+      <p class="lede">The people behind the workshop.</p>
+    </div>
+
+    <div class="ww">
+      <div><div class="ww-k">Write to us</div><div class="ww-big"><a data-cfg-mail></a></div><p>For questions on the programme, applications and travel grants.</p></div>
+      <div class="ww-where"><div class="ww-k">Institutions</div><p class="ww-addr">INAF, Istituto di Astrofisica e Planetologia Spaziali (IAPS)<br>Sapienza University of Rome, Department of Mechanical and Aerospace Engineering</p></div>
+    </div>
+
+    <div class="ig ig-last">
+      <h3 class="ig-label">Organising committee</h3>
+      <ul class="people">
+        <li><div class="pn">Matteo Paris</div><div class="pa">PhD student, Sapienza University of Rome, and research fellow at INAF-IAPS</div></li>
+        <li><div class="pn">Antonio Genova</div><div class="pa">Associate Professor, Sapienza University of Rome, INAF-IAPS affiliate</div></li>
+        <li><div class="pn">Anna Maria Gargiulo</div><div class="pa">Postdoctoral researcher, Sapienza University of Rome</div></li>
+        <li><div class="pn">Gabriele Boccacci</div><div class="pa">PhD student, Sapienza University of Rome</div></li>
+        <li><div class="pn">Martina Ciambellini</div><div class="pa">PhD student, Sapienza University of Rome</div></li>
+        <li><div class="pn">Tommaso Torrini</div><div class="pa">PhD student, Sapienza University of Rome</div></li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="site-footer">
+  <div class="h-in ft-grid">
+    <div>
+      <div class="ft-title">IN-DEPTH 2027</div>
+      <p>Unveiling the interior of planetary bodies, from geodesy to the search for habitable environments</p>
+      <p class="ft-when"><span data-cfg="dates"></span> · <span data-cfg="city"></span></p>
+    </div>
+    <div>
+      <div class="ft-head">Workshop</div>
+      <ul>
+        <li><a href="#programme">Programme</a></li>
+        <li><a href="#info">Info &amp; logistics</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-head">Take part</div>
+      <ul>
+        <li><a href="#apply">How to apply</a></li>
+        <li><a href="#apply">Travel grants</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-head">Contact</div>
+      <ul>
+        <li><a data-cfg-mail></a></li>
+        <li><a href="#organisers">Organising committee</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="h-in">
+    <div class="ft-logos">
+      <img class="lg-inaf" src="assets/logo_inaf.png" alt="INAF">
+      <img class="lg-iaps" src="assets/logo_iaps.png" alt="INAF-IAPS">
+      <img class="lg-sap" src="assets/logo_sapienza.png" alt="Sapienza Università di Roma">
+    </div>
+    <div class="ft-bottom">© <span id="year"></span> IN-DEPTH workshop organising committee</div>
+  </div>
+</footer>
+
+<script>
+/* ==================================================================
+   SETTINGS. Edit only this block to update dates, links and contacts.
+   ================================================================== */
+const CONFIG = {
+  dates:    "Dates to be announced",          // e.g. "15–17 April 2027"
+  city:     "Rome, Italy",
+  venue:    "Sapienza University of Rome and INAF-IAPS, Rome.<br>The exact venue will be announced here.",
+  deadline: "To be announced",               // e.g. "15 January 2027"
+  email:    "matteo.paris@inaf.it",
+  applyUrl: "",                               // link to the Google Form; leave "" while closed
+  timeline: [                                 // key: true highlights the item
+    { d: "TBA", t: "Applications open" },
+    { d: "TBA", t: "Application deadline", key: true },
+    { d: "TBA", t: "Notification of selection and travel grants" },
+    { d: "TBA", t: "Workshop in Rome", key: true }
+  ]
+};
+
+/* ==================================================================
+   DAILY SCHEDULE. Leave empty until the schedule is ready.
+   type: "session", "handson", "break", "social", "other"
+   Example:
+   { day: "Monday", date: "15 April 2027", items: [
+       { time: "09:30 – 11:00", type: "session", title: "Phase 1 lectures", detail: "Speaker to be announced" },
+       { time: "11:00 – 11:30", type: "break",   title: "Coffee break" } ] },
+   ================================================================== */
+const PROGRAMME = [];
+
+/* ---------------- no need to edit below this line ---------------- */
+(function(){
+  document.querySelectorAll('[data-cfg]').forEach(el=>{ el.innerHTML = CONFIG[el.dataset.cfg] || ''; });
+  document.querySelectorAll('[data-cfg-mail]').forEach(a=>{ a.href = 'mailto:' + CONFIG.email; a.textContent = CONFIG.email; });
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const tl = document.getElementById('timeline');
+  CONFIG.timeline.forEach(x=>{
+    const li = document.createElement('li'); if(x.key) li.className = 'key';
+    li.innerHTML = '<span class="d"></span><span class="t"></span>';
+    li.querySelector('.d').textContent = x.d; li.querySelector('.t').textContent = x.t;
+    tl.appendChild(li);
+  });
+
+  const btn = document.getElementById('apply-btn'), note = document.getElementById('apply-note');
+  if(CONFIG.applyUrl){
+    btn.href = CONFIG.applyUrl;
+    note.textContent = 'The form asks for your details, a short CV and a motivation statement.';
+  } else {
+    btn.setAttribute('aria-disabled','true'); btn.removeAttribute('href'); btn.textContent = 'Applications not yet open';
+    note.textContent = 'The form will be available here when the call opens. Write to us if you want to be notified.';
+  }
+
+  const grid = document.getElementById('programme-grid');
+  if(!PROGRAMME.length){
+    grid.innerHTML = '<p class="pg-empty">The detailed schedule will be published here once the dates are fixed.</p>';
+  } else {
+    grid.className = 'pg-grid';
+    PROGRAMME.forEach(d=>{
+      const col = document.createElement('div');
+      col.innerHTML = '<div class="pg-day-head"><div class="pg-dayname"></div><div class="pg-date"></div></div><ol class="pg-list"></ol>';
+      col.querySelector('.pg-dayname').textContent = d.day; col.querySelector('.pg-date').textContent = d.date;
+      const ol = col.querySelector('ol');
+      d.items.forEach(it=>{
+        const li = document.createElement('li'); li.className = 'pg-item pg-' + (it.type || 'other');
+        li.innerHTML = '<div class="pg-time"></div><div class="pg-title"></div>' + (it.detail ? '<div class="pg-detail"></div>' : '');
+        li.querySelector('.pg-time').textContent = it.time; li.querySelector('.pg-title').textContent = it.title;
+        if(it.detail) li.querySelector('.pg-detail').textContent = it.detail;
+        ol.appendChild(li);
+      });
+      grid.appendChild(col);
+    });
+  }
+})();
+
+(function(){
+  const pages = ['home','programme','apply','info','organisers'];
+  function show(){
+    let name = (location.hash || '#home').slice(1);
+    if(!pages.includes(name)) name = 'home';
+    document.body.dataset.route = name;
+    document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.dataset.page === name));
+    document.querySelectorAll('nav .links a').forEach(a=>a.classList.toggle('active', a.dataset.nav === name));
+    window.scrollTo({top:0});
+  }
+  window.addEventListener('hashchange', show); show();
+
+  const nav = document.querySelector('nav'), t = nav.querySelector('.nav-toggle');
+  const set = o=>{ nav.classList.toggle('open',o); t.setAttribute('aria-expanded',o); t.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); };
+  t.addEventListener('click', ()=>set(!nav.classList.contains('open')));
+  window.addEventListener('hashchange', ()=>set(false));
+})();
+</script>
+</body>
+</html>
